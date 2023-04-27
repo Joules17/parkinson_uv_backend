@@ -49,6 +49,12 @@ class List(models.Model):
 
 class Game_list(models.Model):
     id_list = models.ForeignKey(List, on_delete=models.CASCADE)
-    log = models.JSONField() 
     id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
     id_setting = models.ForeignKey(Game_settings, on_delete=models.CASCADE)
+
+class Registers(models.model):
+    id_list = models.ForeignKey(List, on_delete=models.CASCADE)
+    id_patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    date = models.DateField()
+    log = models.JSONField()
