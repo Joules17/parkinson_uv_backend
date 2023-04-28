@@ -15,11 +15,46 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from parkinsonUV_app.API.views import TherapistList, PatientList
+
+## Cuentas: 
+from parkinsonUV_app.API.Accounts.accountViews import (
+    AccountCreateApi, 
+    AccountUpdateApi, 
+    AccountRetrieveApi, 
+    RetreiveAllAccounts
+)
+
+## Terapeutas: 
+from parkinsonUV_app.API.Therapist.therapistViews import (
+    TherapistCreateApi, 
+    TherapistUpdateApi, 
+    TherapistRetrieveApi, 
+    RetreiveAllTherapists
+)
+
+## Pacientes: 
+from parkinsonUV_app.API.Patients.patientsViews import (
+    PatientCreateApi, 
+    PatientUpdateApi, 
+    PatientRetrieveApi, 
+    RetreiveAllPatients
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/therapist/', TherapistList.as_view(), name = 'Terapeutas'),
-    path('api/patient/', PatientList.as_view(), name = 'Pacientes'),
-    
+    ## Accounts ----------------------------------------------------------------------------
+    path('api/account/create', AccountCreateApi.as_view()), 
+    path('api/account/update/<str:pk>', AccountUpdateApi.as_view()), 
+    path('api/account/retreive/<str:pk>', AccountRetrieveApi.as_view()), 
+    path('api/account/retreive/all', RetreiveAllAccounts.as_view()), 
+    ## Therapists ----------------------------------------------------------------------------
+    path('api/therapist/create', TherapistCreateApi.as_view()),
+    path('api/therapist/update/<str:pk>', TherapistUpdateApi.as_view()),
+    path('api/therapist/retrieve/<str:pk>', TherapistRetrieveApi.as_view()),
+    path('api/therapist/retreive/all', RetreiveAllTherapists.as_view()),
+    ## Patients  ----------------------------------------------------------------------------
+    path('api/patient/create', PatientCreateApi.as_view()),
+    path('api/patient/update/<str:pk>', PatientUpdateApi.as_view()),
+    path('api/patient/retrieve/<str:pk>', PatientRetrieveApi.as_view()),
+    path('api/patient/retreive/all', RetreiveAllPatients.as_view()),
 ]

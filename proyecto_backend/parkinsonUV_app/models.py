@@ -20,8 +20,15 @@ class Game(models.Model):
     name = models.CharField(max_length=100)
     id_type = models.ForeignKey(Game_type, on_delete=models.CASCADE)
 
+class Account(models.Model): 
+    id = models.CharField(primary_key = True, max_length = 200)
+    id_type = models.CharField(max_length = 4)
+    password = models.CharField(max_length=200)
+    email = models.EmailField()
+    user_status = models.BooleanField(default = True)
+
 class Therapist(models.Model):
-    id = models.CharField(max_length=15, primary_key=True)
+    id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Therapist', primary_key= True)
     id_type = models.CharField(max_length=4)
     name = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
@@ -29,7 +36,7 @@ class Therapist(models.Model):
     cell = models.CharField(max_length=10)
 
 class Patient(models.Model):
-    id = models.CharField(max_length=15, primary_key=True)
+    id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Patient', primary_key= True)
     id_type = models.CharField(max_length=4)
     name = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
@@ -37,7 +44,6 @@ class Patient(models.Model):
     cell = models.CharField(max_length=10)
     age = models.CharField(max_length=3)
     gender = models.CharField(max_length=3)
-    is_active = models.BooleanField()
     id_parkinson_phase = models.ForeignKey(Parkinson_phase, on_delete=models.CASCADE)
     id_therapist = models.ForeignKey(Therapist, on_delete=models.CASCADE)
 
@@ -52,7 +58,7 @@ class Game_list(models.Model):
     id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
     id_setting = models.ForeignKey(Game_settings, on_delete=models.CASCADE)
 
-class Registers(models.model):
+class Registers(models.Model):
     id_list = models.ForeignKey(List, on_delete=models.CASCADE)
     id_patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
