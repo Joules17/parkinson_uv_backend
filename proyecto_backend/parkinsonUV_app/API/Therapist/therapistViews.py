@@ -13,7 +13,7 @@ class TherapistCreateApi(CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        account = Account.objects.get(user_id = request.data['id'])
+        account = Account.objects.get(user_id = request.data['user_id'])
         serializer = self.serializer_class(data = request.data)
         
         if serializer.is_valid():

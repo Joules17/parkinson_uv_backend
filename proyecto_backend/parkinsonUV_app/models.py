@@ -21,29 +21,29 @@ class Game(models.Model):
     id_type = models.ForeignKey(Game_type, on_delete=models.CASCADE)
 
 class Account(models.Model): 
-    id = models.CharField(primary_key = True, max_length = 200)
-    id_type = models.CharField(max_length = 4)
+    user_id = models.CharField(primary_key = True, max_length = 200)
+    id_type = models.IntegerField()
     password = models.CharField(max_length=200)
     email = models.EmailField()
     user_status = models.BooleanField(default = True)
 
 class Therapist(models.Model):
-    id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Therapist', primary_key= True)
-    id_type = models.CharField(max_length=4)
+    user_id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Therapist', primary_key= True)
+    id_type = models.IntegerField()
     name = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
     email = models.CharField(max_length=80)
     cell = models.CharField(max_length=10)
 
 class Patient(models.Model):
-    id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Patient', primary_key= True)
-    id_type = models.CharField(max_length=4)
+    user_id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Patient', primary_key= True)
+    id_type = models.IntegerField()
     name = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
     email = models.CharField(max_length=80)
     cell = models.CharField(max_length=10)
-    age = models.CharField(max_length=3)
-    gender = models.CharField(max_length=3)
+    age = models.CharField(max_length=20)
+    gender = models.CharField(max_length=10)
     id_parkinson_phase = models.ForeignKey(Parkinson_phase, on_delete=models.CASCADE)
     id_therapist = models.ForeignKey(Therapist, on_delete=models.CASCADE)
 

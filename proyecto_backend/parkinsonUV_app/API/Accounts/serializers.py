@@ -3,32 +3,32 @@ from parkinsonUV_app.models import Account, Patient, Therapist
 
 class AccountSerializer(serializers.ModelSerializer): 
     class Meta: 
-        model = Account, 
-        fields = ['id', 'id_type', 'password', 'email', 'user_status']
+        model = Account
+        fields = '__all__'  
 
 class AccountAuthSerializer(serializers.ModelSerializer): 
     class Meta: 
-        model = Account, 
-        fields = ['id']
+        model = Account
+        fields = ['user_id']
 
 class ActivationAccountSerializer(serializers.ModelSerializer): 
     class Meta: 
-        model = Account,   
-        fields = ['id', 'user_status']
+        model = Account   
+        fields = ['user_id', 'user_status']
 
 ## NESTED SERIALIZERS
 
 class RetreiveTherapistAccountSerializer(serializers.ModelSerializer): 
-    id = AccountSerializer()
+    user_id = AccountSerializer()
 
     class Meta: 
         model = Therapist
-        fields = ['id', 'id_type', 'name', 'lastname', 'email', 'cell']
+        fields = ['user_id', 'id_type', 'name', 'lastname', 'email', 'cell']
 
 class RetreivePatientAccountSerializer(serializers.ModelSerializer): 
     id = AccountSerializer()
     
     class Meta: 
         model = Patient
-        fields = ['id', 'id_type', 'name', 'lastname', 'email', 'cell', 'age', 'gender', 'id_parkinson_phase', 'id_therapist']
+        fields = ['user_id', 'id_type', 'name', 'lastname', 'email', 'cell', 'age', 'gender', 'id_parkinson_phase', 'id_therapist']
 

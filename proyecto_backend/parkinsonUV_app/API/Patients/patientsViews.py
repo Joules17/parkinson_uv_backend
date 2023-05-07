@@ -13,11 +13,12 @@ class PatientCreateApi(CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
     def post(self, request):
-        account = Account.objects.get(id = request.data['id'])
+        print(request.data)
+        account = Account.objects.get(user_id = request.data['user_id'])
         serializer = self.serializer_class(data = request.data)
         
         if serializer.is_valid():
-            serializer.save(id = account)
+            serializer.save(user_id = account)
             return Response({'message': 'La cuenta de paciente fue creada con exito', 'data': serializer.data }, status = status.HTTP_201_CREATED)
         else:
             return Response(serializer.errors, status = status.HTTP_400_BAD_REQUEST)
