@@ -51,12 +51,12 @@ class AccountAuthRetreiveApi(APIView):
     def post (self, request): 
         user_id = request.data['user_id']
         cuenta = Account.objects.filter(user_id = user_id).first()
-
-        ## Cuenta no registrada = 0
+    
+        ## Cuenta registrada = 1 o 2 siendo 1 terapeuta, 2 paciente, por lo tanto NO DEBE SER REGISTRADA
         if (not(cuenta is None)): 
-            id_type = 0
-        
-        ## Cuenta que no debe ser registrada (ya existe)
+            cuenta_dict = cuenta.__dict__
+            id_type = cuenta_dict["id_type"]
+        ## Cuenta que debe ser registrada 
         else: 
             id_type = 3
         user_status = True
