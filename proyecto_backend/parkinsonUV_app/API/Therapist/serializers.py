@@ -10,5 +10,5 @@ class TherapistSerializer(serializers.ModelSerializer):
 
 class TherapistSerializerWithoutPk(serializers.ModelSerializer): 
     class Meta: 
-        model = Therapist, 
+        model = Therapist
         fields = ['id_type', 'name', 'lastname', 'email', 'cell']
