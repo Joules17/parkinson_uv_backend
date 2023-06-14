@@ -23,13 +23,15 @@ from parkinsonUV_app.API.Accounts.accountViews import (
     AccountRetrieveApi, 
     RetreiveAllAccounts, 
     AccountAuthRetreiveApi, 
-    DeleteAccountApi
+    DeleteAccountApi, 
+    AccountUpdateStatusApi
 )
 
 ## Terapeutas: 
 from parkinsonUV_app.API.Therapist.therapistViews import (
     TherapistCreateApi, 
     TherapistUpdateApi, 
+    getTherapistDetailed, 
     TherapistRetrieveApi, 
     RetreiveAllTherapists
 )
@@ -38,8 +40,11 @@ from parkinsonUV_app.API.Therapist.therapistViews import (
 from parkinsonUV_app.API.Patients.patientsViews import (
     PatientCreateApi, 
     PatientUpdateApi, 
+    PatientUpdateAssigneeApi,
     PatientRetrieveApi, 
-    RetreiveAllPatients
+    GetPatientDetailed,
+    RetreiveAllPatients,
+    RetreiveTherapistPatients
 )
 
 ## Juegos: 
@@ -77,16 +82,21 @@ urlpatterns = [
     path('api/account/retreive/<str:pk>', AccountRetrieveApi.as_view()), 
     path('api/account/retreive/', RetreiveAllAccounts.as_view()), 
     path('api/account/delete/<str:pk>', DeleteAccountApi.as_view()), 
+    path('api/account/update/status/<str:pk>', AccountUpdateStatusApi.as_view()),
     ## Therapists ----------------------------------------------------------------------------
     path('api/therapist/create', TherapistCreateApi.as_view()),
     path('api/therapist/update/<str:pk>', TherapistUpdateApi.as_view()),
     path('api/therapist/retreive/<str:pk>', TherapistRetrieveApi.as_view()),
+    path('api/therapist/retreive/detailed/<str:user_id>', getTherapistDetailed.as_view()), 
     path('api/therapist/retreive/', RetreiveAllTherapists.as_view()),
     ## Patients  ----------------------------------------------------------------------------
     path('api/patient/create', PatientCreateApi.as_view()),
     path('api/patient/update/<str:pk>', PatientUpdateApi.as_view()),
+    path('api/patient/update/assignee/<str:pk>', PatientUpdateAssigneeApi.as_view()),
     path('api/patient/retreive/<str:pk>', PatientRetrieveApi.as_view()),
+    path('api/patient/retreive/detailed/<str:user_id>', GetPatientDetailed.as_view()), 
     path('api/patient/retreive/', RetreiveAllPatients.as_view()),
+    path('api/patient/retreive/therapist/<str:id_therapist>/', RetreiveTherapistPatients.as_view()),
     ## Games --------------------------------------------------------------------------------
     path('api/game/create', GameCreateApi.as_view()), 
     path('api/game/update/<str:pk>', GameUpdateApi.as_view()),

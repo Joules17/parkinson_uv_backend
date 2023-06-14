@@ -23,6 +23,9 @@ class Game(models.Model):
 class Account(models.Model): 
     user_id = models.CharField(primary_key = True, max_length = 200)
     id_type = models.IntegerField()
+    document_id = models.IntegerField(max_length= 50, default = 0000000000)
+    document_type = models.CharField(max_length= 40, default = 'C.C.')
+    user_picture = models.CharField(max_length=400, default = 'NN')
     password = models.CharField(max_length=200)
     email = models.EmailField()
     user_status = models.BooleanField(default = True)

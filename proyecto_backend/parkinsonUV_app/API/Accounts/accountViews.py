@@ -4,7 +4,9 @@ from .serializers import (
     AccountAuthSerializer, 
     RetreivePatientAccountSerializer, 
     RetreiveTherapistAccountSerializer, 
-    ActivationAccountSerializer
+    ActivationAccountSerializer, 
+    AccountSerializerWithoutPK,
+    AccountSerializerStatus
 )
 
 from parkinsonUV_app.models import Account, Patient, Therapist
@@ -22,7 +24,7 @@ class AccountCreateApi(CreateAPIView):
     permission_classes = [permissions.AllowAny]
 
 class AccountUpdateApi(UpdateAPIView): 
-    serializer_class = AccountSerializer
+    serializer_class = AccountSerializerWithoutPK
     model = Account
     permission_classes = [permissions.AllowAny]
     queryset = Account.objects.all()
@@ -56,10 +58,11 @@ class AccountAuthRetreiveApi(APIView):
         if (not(cuenta is None)): 
             cuenta_dict = cuenta.__dict__
             id_type = cuenta_dict["id_type"]
+            user_status = cuenta_dict["user_status"]
         ## Cuenta que debe ser registrada 
         else: 
             id_type = 3
-        user_status = True
+            user_status = True
         
         return Response({'authdata': 'no hay', 'user_id' : user_id, 'id_type': id_type, 'user_status': user_status, 'token': 'no hay token'})
     
@@ -73,6 +76,12 @@ class DeleteAccountApi(DestroyAPIView):
         account = self.get_object()
         account.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
+    
+class AccountUpdateStatusApi(UpdateAPIView): 
+    serializer_class = AccountSerializerStatus
+    model = Account
+    permission_classes = [permissions.AllowAny]
+    queryset = Account.objects.all()
 
 ## Views detalladas 
 class RetreiveAllPatientsDetailed(ListAPIView): 
@@ -86,3 +95,4 @@ class RetreiveAllTherapistDetailed(ListAPIView):
     model = Therapist
     permission_classes = [permissions.AllowAny]
     queryset = Therapist.objects.all()
+

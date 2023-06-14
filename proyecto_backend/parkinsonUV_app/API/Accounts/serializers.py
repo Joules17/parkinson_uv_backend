@@ -6,6 +6,11 @@ class AccountSerializer(serializers.ModelSerializer):
         model = Account
         fields = '__all__'  
 
+class AccountSerializerWithoutPK(serializers.ModelSerializer): 
+    class Meta: 
+        model = Account
+        fields = ['id_type', 'document_id', 'document_type', 'user_picture', 'password', 'email', 'user_status']
+
 class AccountAuthSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Account
@@ -32,3 +37,7 @@ class RetreivePatientAccountSerializer(serializers.ModelSerializer):
         model = Patient
         fields = ['user_id', 'id_type', 'name', 'lastname', 'email', 'cell', 'age', 'gender', 'id_parkinson_phase', 'id_therapist']
 
+class AccountSerializerStatus(serializers.ModelSerializer): 
+    class Meta: 
+        model = Account
+        fields = ['user_status']

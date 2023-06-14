@@ -3,6 +3,7 @@ from .serializers import (
     TherapistSerializer, 
     TherapistSerializerWithoutPk
 )
+from rest_framework.views import APIView
 from parkinsonUV_app.models import Account, Therapist
 from rest_framework.response import Response
 from rest_framework import permissions, status
@@ -32,6 +33,25 @@ class TherapistRetrieveApi(RetrieveAPIView):
     model = Therapist
     permission_classes = [permissions.AllowAny]
     queryset = Therapist.objects.all()
+
+class getTherapistDetailed(APIView): 
+    def get(self, request, user_id): 
+        therapist = Therapist.objects.filter(user_id = user_id)
+        account = Account.objects.filter(user_id = user_id)
+        
+        therapist_data = {
+            'user_id' : account[0].user_id, 
+            'document_id' : account[0].document_id, 
+            'document_type' : account[0].document_type, 
+            'user_picture' : account[0].user_picture, 
+            'email': account[0].email,
+            'user_status' : account[0].user_status, 
+            'name' : therapist[0].name, 
+            'lastname' : therapist[0].lastname, 
+            'cell': therapist[0].cell
+        }
+
+        return Response(therapist_data)
 
 class RetreiveAllTherapists(ListAPIView):
     serializer_class = TherapistSerializer
