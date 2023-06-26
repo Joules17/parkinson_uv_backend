@@ -33,7 +33,7 @@ jobs:
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
       - name: Run migrations
         run: |
-          source venv/bin/activate
+          cd proyecto_backend
           python manage.py makemigrations
           python manage.py migrate
       
