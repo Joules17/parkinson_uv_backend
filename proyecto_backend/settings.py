@@ -23,17 +23,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xl%y-mmmr-l-%$fl!6jhhoh1(f&6l++%4qe@q2sp*+=%=e%xyk'
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY", default='xl%y-mmmr-l-%$fl!6jhhoh1(f&6l++%4qe@q2sp*+=%=e%xyk'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [
-    'parkinsonuvbackend.azurewebsites.net'
-    ]
-
+ALLOWED_HOSTS = []
 
 # Application definition
+
+## Azure Config 
+WEBSITE_HOSTNAME = os.environ.get("WEBSITE_HOSTNAME")
+if WEBSITE_HOSTNAME:
+    ALLOWED_HOSTS.append(WEBSITE_HOSTNAME)
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -83,7 +87,6 @@ WSGI_APPLICATION = 'proyecto_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-print(os.getenv('DB_NAME'), os.getenv('DB_USER'), os.getenv('DB_PASSWORD'))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -130,6 +133,14 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
+
+if not DEBUG:  # Tell Django to copy statics to the `staticfiles` directory
+    # in your application directory on Render.
+    STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+    # Turn on WhiteNoise storage backend that takes care of compressing static files
+    # and creating unique names for each version so they can safely be cached forever.
+    STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
