@@ -1,0 +1,5 @@
+parkinson_env_uv/
+__pycache__/
+*.py[cod]
+*$py.class
+.env
