@@ -18,7 +18,9 @@ class Game_settings(models.Model):
 class Game(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
+    description = models.CharField(max_length= 500, default = 'N/A')
     id_type = models.ForeignKey(Game_type, on_delete=models.CASCADE)
+    game_picture = models.CharField(max_length=500, default = 'N/A')
 
 class Account(models.Model): 
     user_id = models.CharField(primary_key = True, max_length = 200)

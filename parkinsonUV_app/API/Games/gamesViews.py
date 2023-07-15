@@ -37,6 +37,34 @@ class RetreiveAllGames(ListAPIView):
     permission_classes = [permissions.AllowAny]
     queryset = Game.objects.all()
 
+class RetreiveAllGamesWithType(APIView): 
+    def get(self, request): 
+        games = Game.objects.all()
+
+        result_types= Game_type.objects.filter(id__in = games.values('id_type'))
+        result = []
+        for game in games:
+            game_data = {
+                'id': game.id,
+                'name': game.name,
+                'description': game.description,
+                'game_picture': game.game_picture,
+                'id_type_id': game.id_type_id,
+            }
+            game_type = result_types.filter(id = game_data['id_type_id'])
+            game_type = list(game_type.values())[0]
+            
+            
+            if game_type: 
+                game_type_data = {
+                    'type': game_type['type']
+                }
+                game_data.update(game_type_data)
+            
+            result.append(game_data)
+
+        return Response(result)
+
 class DeleteGameApi(DestroyAPIView): 
     serializer_class = GameSerializer
     model = Game 

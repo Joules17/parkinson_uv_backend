@@ -53,7 +53,8 @@ from parkinsonUV_app.API.Games.gamesViews import (
     GameCreateApi, 
     GameUpdateApi, 
     GameRetreiveApi, 
-    RetreiveAllGames, 
+    RetreiveAllGames,
+    RetreiveAllGamesWithType, 
     DeleteGameApi,
     ## GameTypes
     GameTypeCreateApi, 
@@ -101,7 +102,7 @@ urlpatterns = [
     path('api/game/create', GameCreateApi.as_view()), 
     path('api/game/update/<str:pk>', GameUpdateApi.as_view()),
     path('api/game/retreive/<str:pk>', GameRetreiveApi.as_view()), 
-    path('api/game/retreive/', RetreiveAllGames.as_view()),
+    path('api/game/retreive/', RetreiveAllGamesWithType.as_view()),
     path('api/game/delete/<str:pk>', DeleteGameApi.as_view()),
     ## Game_Type ----------------------------------------------------------------------------
     path('api/game_type/create', GameTypeCreateApi.as_view()), 

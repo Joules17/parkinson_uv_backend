@@ -148,5 +148,5 @@ if not DEBUG:  # Tell Django to copy statics to the `staticfiles` directory
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:3000', 'http://127.0.0.1:3000', 'https://kind-smoke-0fe347d10.3.azurestaticapps.net'
+    'http://localhost:3000', 'http://127.0.0.1:3000', 'https://kind-smoke-0fe347d10.3.azurestaticapps.net', 'https://www.parkinson-uv.me'
 ]
