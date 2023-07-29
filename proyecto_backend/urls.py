@@ -63,6 +63,21 @@ from parkinsonUV_app.API.Games.gamesViews import (
     DeleteGameTypeApi
 )
 
+# Lista de juegos
+from parkinsonUV_app.API.ListGames.listGamesViews import (
+    ListCreateApi,
+    ListUpdateApi,
+    ListRetreiveApi,
+    RetreiveAllList,
+    DeleteListApi,
+
+    GameListCreateApi,
+    GameListUpdateApi,
+    GameListRetreiveApi,
+    RetreiveAllGameList,
+    DeleteGameListApi
+)
+
 ## Parkinson_phase
 from parkinsonUV_app.API.ParkinsonPhase.parkinsonPhaseViews import (
     ParkinsonCreateApi, 
@@ -101,8 +116,8 @@ urlpatterns = [
     path('api/game/create', GameCreateApi.as_view()), 
     path('api/game/update/<str:pk>', GameUpdateApi.as_view()),
     path('api/game/retreive/<str:pk>', GameRetreiveApi.as_view()), 
-    path('api/game/retreive/', RetreiveAllGames.as_view()),
-    path('api/game/delete/<str:pk>', DeleteGameApi.as_view()),
+    path('api/game/retreive/', RetreiveAllGameList.as_view()),
+    path('api/game/delete/<str:pk>', DeleteGameListApi.as_view()),
     ## Game_Type ----------------------------------------------------------------------------
     path('api/game_type/create', GameTypeCreateApi.as_view()), 
     path('api/game_type/update/<str:pk>', GameTypeUpdateApi.as_view()),
@@ -115,4 +130,16 @@ urlpatterns = [
     path('api/parkinson/retreive/<str:pk>', ParkinsonRetrieveApi.as_view()), 
     path('api/parkinson/retreive/', RetreiveAllParkinsons.as_view()),
     path('api/parkinson/delete/<str:pk>', DeleteParkinsonApi.as_view()),
+    ## Games List ---------------------------------------------------------------------------
+    path('api/game_list/create', GameListCreateApi.as_view()), 
+    path('api/game_list/update/<str:pk>', GameListUpdateApi.as_view()),
+    path('api/game_list/retreive/<str:pk>', GameListRetreiveApi.as_view()), 
+    path('api/game_list/retreive/', RetreiveAllGameList.as_view()),
+    path('api/game_list/delete/<str:pk>', DeleteGameApi.as_view()),
+    ## List ---------------------------------------------------------------------------------
+    path('api/list/create', ListCreateApi.as_view()), 
+    path('api/list/update/<str:pk>', ListUpdateApi.as_view()),
+    path('api/list/retreive/<str:pk>', ListRetreiveApi.as_view()), 
+    path('api/list/retreive/', RetreiveAllList.as_view()),
+    path('api/list/delete/<str:pk>', DeleteListApi.as_view()),
 ]

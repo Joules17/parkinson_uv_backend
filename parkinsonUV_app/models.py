@@ -51,10 +51,10 @@ class Patient(models.Model):
     id_therapist = models.ForeignKey(Therapist, on_delete=models.CASCADE)
 
 class List(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     id_therapist = models.ForeignKey(Therapist, on_delete=models.CASCADE)
-    id_patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    id_patient = models.ManyToManyField(Patient)
+    games = models.ManyToManyField(Game, through='Game_list')
 
 class Game_list(models.Model):
     id_list = models.ForeignKey(List, on_delete=models.CASCADE)
