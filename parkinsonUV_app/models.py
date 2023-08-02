@@ -54,7 +54,7 @@ class Patient(models.Model):
 class Game_list(models.Model):
     id_list = models.ForeignKey('List', on_delete=models.CASCADE)
     id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    setting = models.JSONField()
+    setting = models.JSONField(null="true")
 
 class List(models.Model):
     name = models.CharField(max_length=100)

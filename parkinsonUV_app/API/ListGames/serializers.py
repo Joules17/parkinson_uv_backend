@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from parkinsonUV_app.models import Game_list, List
+from parkinsonUV_app.models import Game_list, List, Game
 from ..Games.serializers import GameSerializer
 
 class ListGamesSerializer(serializers.ModelSerializer): 
@@ -30,3 +30,8 @@ class ListSerializer(serializers.ModelSerializer):
             games_with_setting.append(game_with_setting)
 
         return games_with_setting
+    
+class ListCreateSerializer(serializers.ModelSerializer): 
+    class Meta: 
+        model = List
+        fields = '__all__'

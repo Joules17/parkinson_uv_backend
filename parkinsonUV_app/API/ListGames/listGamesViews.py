@@ -2,10 +2,11 @@ from rest_framework.generics import UpdateAPIView, CreateAPIView, ListAPIView, R
 from .serializers import (
     ListGamesSerializer, 
     ListSerializer,
-    ListGamesSerializerSetting
+    ListGamesSerializerSetting,
+    ListCreateSerializer
 )
 
-from parkinsonUV_app.models import List, Game_list
+from parkinsonUV_app.models import List, Game_list, Game
 from rest_framework.response import Response
 from rest_framework import permissions, status
 from rest_framework.views import APIView
@@ -15,10 +16,32 @@ import json, os
 from dotenv import load_dotenv
 
 # List -------------------------------------------------------------------------------------------------------------
+from rest_framework.response import Response
+from django.db import transaction
+
 class ListCreateApi(CreateAPIView): 
-    serializer_class = ListSerializer
+    serializer_class = ListCreateSerializer
     model = List
     permission_classes = [permissions.AllowAny]
+
+    def perform_create(self, serializer):
+        games_data = self.request.data.get('games', [])
+
+        with transaction.atomic():
+            game_list = serializer.save()
+
+            for game_id in games_data:
+                game = Game.objects.get(id=game_id)
+
+                # Aquí define el valor adecuado para el campo "setting" de cada juego
+                setting_data = {
+                    "field1": "value1",
+                    "field2": "value2",
+                    # Agrega aquí los campos y valores que necesites para "setting"
+                }
+
+                # Crea el objeto Game_list con el valor "setting" proporcionado
+                Game_list.objects.create(id_list=game_list, id_game=game, setting=setting_data)
 
 class ListUpdateApi(UpdateAPIView): 
     serializer_class = ListSerializer
