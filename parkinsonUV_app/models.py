@@ -28,7 +28,6 @@ class Account(models.Model):
     document_id = models.IntegerField(max_length= 50, default = 0000000000)
     document_type = models.CharField(max_length= 40, default = 'C.C.')
     user_picture = models.CharField(max_length=400, default = 'NN')
-    password = models.CharField(max_length=200)
     email = models.EmailField()
     user_status = models.BooleanField(default = True)
 
@@ -52,16 +51,16 @@ class Patient(models.Model):
     id_parkinson_phase = models.ForeignKey(Parkinson_phase, on_delete=models.CASCADE)
     id_therapist = models.ForeignKey(Therapist, on_delete=models.CASCADE)
 
+class Game_list(models.Model):
+    id_list = models.ForeignKey('List', on_delete=models.CASCADE)
+    id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
+    setting = models.JSONField()
+
 class List(models.Model):
-    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
     id_therapist = models.ForeignKey(Therapist, on_delete=models.CASCADE)
-    id_patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-
-class Game_list(models.Model):
-    id_list = models.ForeignKey(List, on_delete=models.CASCADE)
-    id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    id_setting = models.ForeignKey(Game_settings, on_delete=models.CASCADE)
+    id_patient = models.ManyToManyField(Patient, null="true")
+    games = models.ManyToManyField(Game, through=Game_list)
 
 class Registers(models.Model):
     id_list = models.ForeignKey(List, on_delete=models.CASCADE)

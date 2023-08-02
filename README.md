@@ -1,5 +1,7 @@
 # parkinson_uv_backend
 
-Para ejecutar tener en cuenta: 
+Para ejecutar local tener en cuenta: 
 1. Contar con el archivo .env
-2. pip install -r requirements.txt >> Para instalar dependencias 
+2. Crear o tener un ambiente virtual de python.
+3. Activar el ambiente virtual
+4. pip install -r requirements.txt >> Para instalar dependencias

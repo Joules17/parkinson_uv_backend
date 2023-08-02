@@ -64,6 +64,22 @@ from parkinsonUV_app.API.Games.gamesViews import (
     DeleteGameTypeApi
 )
 
+# Lista de juegos
+from parkinsonUV_app.API.ListGames.listGamesViews import (
+    ListCreateApi,
+    ListUpdateApi,
+    ListRetreiveApi,
+    RetreiveAllList,
+    DeleteListApi,
+
+    GameListCreateApi,
+    GameListUpdateApi,
+    GameListRetreiveApi,
+    RetreiveAllGameList,
+    DeleteGameListApi,
+    GameListSettingUpdateApi
+)
+
 ## Parkinson_phase
 from parkinsonUV_app.API.ParkinsonPhase.parkinsonPhaseViews import (
     ParkinsonCreateApi, 
@@ -116,4 +132,17 @@ urlpatterns = [
     path('api/parkinson/retreive/<str:pk>', ParkinsonRetrieveApi.as_view()), 
     path('api/parkinson/retreive/', RetreiveAllParkinsons.as_view()),
     path('api/parkinson/delete/<str:pk>', DeleteParkinsonApi.as_view()),
+    ## Games List ---------------------------------------------------------------------------
+    path('api/game_list/create', GameListCreateApi.as_view()), 
+    path('api/game_list/update/<int:pk>', GameListUpdateApi.as_view()),
+    path('api/game_list/update/setting/<int:pk>', GameListSettingUpdateApi.as_view()),
+    path('api/game_list/retreive/<str:pk>', GameListRetreiveApi.as_view()), 
+    path('api/game_list/retreive/', RetreiveAllGameList.as_view()),
+    path('api/game_list/delete/<str:pk>', DeleteGameApi.as_view()),
+    ## List ---------------------------------------------------------------------------------
+    path('api/list/create', ListCreateApi.as_view()), 
+    path('api/list/update/<str:pk>', ListUpdateApi.as_view()),
+    path('api/list/retreive/<str:pk>', ListRetreiveApi.as_view()), 
+    path('api/list/retreive/', RetreiveAllList.as_view()),
+    path('api/list/delete/<str:pk>', DeleteListApi.as_view()),
 ]

@@ -9,7 +9,7 @@ class AccountSerializer(serializers.ModelSerializer):
 class AccountSerializerWithoutPK(serializers.ModelSerializer): 
     class Meta: 
         model = Account
-        fields = ['id_type', 'document_id', 'document_type', 'user_picture', 'password', 'email', 'user_status']
+        fields = ['id_type', 'document_id', 'document_type', 'user_picture', 'email', 'user_status']
 
 class AccountAuthSerializer(serializers.ModelSerializer): 
     class Meta: 
