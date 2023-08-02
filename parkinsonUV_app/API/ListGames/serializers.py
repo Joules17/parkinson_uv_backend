@@ -26,6 +26,7 @@ class ListSerializer(serializers.ModelSerializer):
             game_serializer = GameSerializer(game_data.id_game)
             game_with_setting = game_serializer.data
             game_with_setting["setting"] = game_data.setting
+            game_with_setting["id_game_list"] = game_data.id  # Agregar el id de Game_list
             games_with_setting.append(game_with_setting)
 
         return games_with_setting
