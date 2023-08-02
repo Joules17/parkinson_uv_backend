@@ -76,7 +76,8 @@ from parkinsonUV_app.API.ListGames.listGamesViews import (
     GameListUpdateApi,
     GameListRetreiveApi,
     RetreiveAllGameList,
-    DeleteGameListApi
+    DeleteGameListApi,
+    GameListSettingUpdateApi
 )
 
 ## Parkinson_phase
@@ -133,7 +134,8 @@ urlpatterns = [
     path('api/parkinson/delete/<str:pk>', DeleteParkinsonApi.as_view()),
     ## Games List ---------------------------------------------------------------------------
     path('api/game_list/create', GameListCreateApi.as_view()), 
-    path('api/game_list/update/<str:pk>', GameListUpdateApi.as_view()),
+    path('api/game_list/update/<int:pk>', GameListUpdateApi.as_view()),
+    path('api/game_list/update/setting/<int:pk>', GameListSettingUpdateApi.as_view()),
     path('api/game_list/retreive/<str:pk>', GameListRetreiveApi.as_view()), 
     path('api/game_list/retreive/', RetreiveAllGameList.as_view()),
     path('api/game_list/delete/<str:pk>', DeleteGameApi.as_view()),

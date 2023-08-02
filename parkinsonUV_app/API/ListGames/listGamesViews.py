@@ -1,7 +1,8 @@
 from rest_framework.generics import UpdateAPIView, CreateAPIView, ListAPIView, RetrieveAPIView, DestroyAPIView
 from .serializers import (
     ListGamesSerializer, 
-    ListSerializer
+    ListSerializer,
+    ListGamesSerializerSetting
 )
 
 from parkinsonUV_app.models import List, Game_list
@@ -48,7 +49,7 @@ class DeleteListApi(DestroyAPIView):
         List.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
 
-## Game Types -------------------------------------------------------------------------------------------------
+## Game List -------------------------------------------------------------------------------------------------
 
 class GameListCreateApi(CreateAPIView): 
     serializer_class = ListGamesSerializer
@@ -59,6 +60,11 @@ class GameListCreateApi(CreateAPIView):
 class GameListUpdateApi(UpdateAPIView): 
     serializer_class = ListGamesSerializer
     model = Game_list
+    permission_classes = [permissions.AllowAny]
+    queryset = Game_list.objects.all()
+
+class GameListSettingUpdateApi(UpdateAPIView): 
+    serializer_class = ListGamesSerializerSetting
     permission_classes = [permissions.AllowAny]
     queryset = Game_list.objects.all()
 
