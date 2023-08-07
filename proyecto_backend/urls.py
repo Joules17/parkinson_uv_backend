@@ -89,6 +89,24 @@ from parkinsonUV_app.API.ParkinsonPhase.parkinsonPhaseViews import (
     DeleteParkinsonApi
 )
 
+## Actividades 
+from parkinsonUV_app.API.Activity.activityViews import (
+    ActivityCreateAPI, 
+    ActivityRetreiveAPI, 
+    ActivityUpdateAPI, 
+    RetreiveAllActivities, 
+    DeleteActivityApi
+)
+
+## Sessions 
+from parkinsonUV_app.API.Sessions.sessionsViews import (
+    SessionCreateAPI,
+    SessionRetreiveAPI,
+    SessionUpdateAPI,
+    RetreiveAllSessions,
+    DeleteSessionAPI
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     ## Auth --------------------------------------------------------------------------------
@@ -145,4 +163,16 @@ urlpatterns = [
     path('api/list/retreive/<str:pk>', ListRetreiveApi.as_view()), 
     path('api/list/retreive/', RetreiveAllList.as_view()),
     path('api/list/delete/<str:pk>', DeleteListApi.as_view()),
+    ## Activities ---------------------------------------------------------------------------
+    path('api/activity/create', ActivityCreateAPI.as_view()),
+    path('api/activity/update/<str:pk>', ActivityUpdateAPI.as_view()),
+    path('api/activity/retreive/<str:pk>', ActivityRetreiveAPI.as_view()),
+    path('api/activity/retreive/', RetreiveAllActivities.as_view()),
+    path('api/activity/delete/<str:pk>', DeleteActivityApi.as_view()),
+    ## Sessions -----------------------------------------------------------------------------
+    path('api/session/create', SessionCreateAPI.as_view()),
+    path('api/session/update/<str:pk>', SessionUpdateAPI.as_view()),
+    path('api/session/retreive/<str:pk>', SessionRetreiveAPI.as_view()),
+    path('api/session/retreive/', RetreiveAllSessions.as_view()),
+    path('api/session/delete/<str:pk>', DeleteSessionAPI.as_view()),
 ]

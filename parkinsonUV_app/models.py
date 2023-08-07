@@ -62,9 +62,21 @@ class List(models.Model):
     id_patient = models.ManyToManyField(Patient, null="true")
     games = models.ManyToManyField(Game, through=Game_list)
 
-class Registers(models.Model):
-    id_list = models.ForeignKey(List, on_delete=models.CASCADE)
-    id_patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
-    date = models.DateField()
-    log = models.JSONField()
+class Activity(models.Model): 
+    id = models.AutoField(primary_key = True)
+    name = models.CharField(max_length = 100)
+    description = models.CharField(max_length = 300)
+    interval = models.IntegerField()
+    last_scheduled_date = models.DateField()
+    id_list = models.ForeignKey(List, on_delete = models.CASCADE)
+    id_patient = models.ForeignKey(Patient, on_delete = models.CASCADE)
+    id_therapist = models.ForeignKey(Therapist, on_delete = models.CASCADE)
+
+class Session(models.Model): 
+    id = models.AutoField(primary_key = True)
+    date_start = models.DateTimeField()
+    date_end = models.DateTimeField()
+    log = models.CharField(max_length = 1000)
+    id_activity = models.ForeignKey(Activity, on_delete = models.CASCADE)
+    id_patient = models.ForeignKey(Patient, on_delete = models.CASCADE)
+    id_therapist = models.ForeignKey(Therapist, on_delete = models.CASCADE)
