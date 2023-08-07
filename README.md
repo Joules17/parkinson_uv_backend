@@ -5,7 +5,7 @@ Este es el repositorio del backend del proyecto ParkinsonUV.
 ## Tecnlogías utilizadas
 <div style="display: flex; justify-content: center;">
   <div style="display: flex;">
-    <img src="https://profilinator.rishav.dev/skills-assets/react-original-wordmark.svg" alt="React" height="50" style="margin: 10px;">
+    <img src="https://cdn.hashnode.com/res/hashnode/image/upload/v1636780048014/niLN2J80j.png" alt="React" height="50" style="margin: 10px;">
     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Python.svg/1200px-Python.svg.png" alt="React" height="50" style="margin: 10px;">
   </div>
 </div>
