@@ -1,11 +1,11 @@
 from rest_framework.generics import UpdateAPIView, CreateAPIView,  ListAPIView, RetrieveAPIView, DestroyAPIView
-from .serializer import ( 
+from .serializers import ( 
     SessionSerializer, 
     SessionSerializerWithoutPK
 )
 
 from parkinsonUV_app.models import Session, Activity, Patient, Therapist
-from rest_framework.response import response
+from rest_framework.response import Response
 from rest_framework import permissions, status
 
 class SessionCreateAPI(CreateAPIView):
@@ -44,7 +44,7 @@ class RetreiveAllSessions(ListAPIView):
     permission_classes = [permissions.AllowAny]
     queryset = Session.objects.all()
 
-class DeleteSessionApi(DestroyAPIView):
+class DeleteSessionAPI(DestroyAPIView):
     serializer_class = SessionSerializer
     model = Session
     permission_classes = [permissions.AllowAny]
@@ -54,6 +54,3 @@ class DeleteSessionApi(DestroyAPIView):
         Session = self.get_object()
         Session.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
-        
-
-

@@ -67,7 +67,7 @@ class Activity(models.Model):
     name = models.CharField(max_length = 100)
     description = models.CharField(max_length = 300)
     interval = models.IntegerField()
-    last_scheduled_date = models.CharField(max_length = 25)
+    last_scheduled_date = models.DateField()
     id_list = models.ForeignKey(List, on_delete = models.CASCADE)
     id_patient = models.ForeignKey(Patient, on_delete = models.CASCADE)
     id_therapist = models.ForeignKey(Therapist, on_delete = models.CASCADE)

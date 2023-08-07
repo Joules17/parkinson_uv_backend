@@ -100,11 +100,11 @@ from parkinsonUV_app.API.Activity.activityViews import (
 
 ## Sessions 
 from parkinsonUV_app.API.Sessions.sessionsViews import (
-    SessionCreateApi,
-    SessionRetreiveApi,
-    SessionUpdateApi,
+    SessionCreateAPI,
+    SessionRetreiveAPI,
+    SessionUpdateAPI,
     RetreiveAllSessions,
-    DeleteSessionApi
+    DeleteSessionAPI
 )
 
 urlpatterns = [
@@ -174,5 +174,5 @@ urlpatterns = [
     path('api/session/update/<str:pk>', SessionUpdateAPI.as_view()),
     path('api/session/retreive/<str:pk>', SessionRetreiveAPI.as_view()),
     path('api/session/retreive/', RetreiveAllSessions.as_view()),
-    path('api/session/delete/<str:pk>', DeleteSessionApi.as_view()),
+    path('api/session/delete/<str:pk>', DeleteSessionAPI.as_view()),
 ]

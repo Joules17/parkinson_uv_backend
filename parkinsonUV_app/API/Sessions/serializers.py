@@ -4,9 +4,9 @@ from parkinsonUV_app.models import Session
 class SessionSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Session 
-        fields = ['id', 'date_start', 'date_end', 'log', 'id_activity', 'id_patient'. 'id_therapist']
+        fields = ['id', 'date_start', 'date_end', 'log', 'id_activity', 'id_patient', 'id_therapist']
 
-class SessionSerializerWithoutPK(serializer.ModelSerializer): 
+class SessionSerializerWithoutPK(serializers.ModelSerializer): 
     class Meta: 
         model = Session 
-        fields = ['date_start', 'date_end', 'log', 'id_activity', 'id_patient'. 'id_therapist']
+        fields = ['date_start', 'date_end', 'log', 'id_activity', 'id_patient', 'id_therapist']

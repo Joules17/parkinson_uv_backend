@@ -22,7 +22,7 @@ class ActivityCreateAPI(CreateAPIView):
         serializer = self.serializer_class(data = request.data)
 
         if serializer.is_valid(): 
-            serializer.save(id_list = lista_obj)
+            serializer.save(id_list = list_obj)
             serializer.save(id_patient = patient)
             serializer.save(id_therapist = therapist)
             return Response({'message' : '¡La Actividad fue creada con exito!'})
