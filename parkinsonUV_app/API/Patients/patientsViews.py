@@ -116,6 +116,7 @@ class RetreiveTherapistPatients(APIView):
                 patient_data.update(account_data)
 
             # Buscar el objeto correspondiente en result_phases
+            print('veamos aqui un momento', patient_data['id_parkinson_phase_id'])
             phases = result_phases.filter(id = patient_data['id_parkinson_phase_id'])
             phases = list(phases.values())[0]
             if phases:
@@ -128,6 +129,7 @@ class RetreiveTherapistPatients(APIView):
 
             result.append(patient_data)
 
+        print(result, 'cual es el problema???')
         return Response(result)
     
 class PatientUpdateAssigneeApi(UpdateAPIView): 

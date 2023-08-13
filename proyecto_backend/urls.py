@@ -95,7 +95,8 @@ from parkinsonUV_app.API.Activity.activityViews import (
     ActivityRetreiveAPI, 
     ActivityUpdateAPI, 
     RetreiveAllActivities, 
-    DeleteActivityApi
+    DeleteActivityApi, 
+    GetActivitiesByTherapistDetailed
 )
 
 ## Sessions 
@@ -169,6 +170,7 @@ urlpatterns = [
     path('api/activity/retreive/<str:pk>', ActivityRetreiveAPI.as_view()),
     path('api/activity/retreive/', RetreiveAllActivities.as_view()),
     path('api/activity/delete/<str:pk>', DeleteActivityApi.as_view()),
+    path('api/activity/retreive/therapist/<str:id_therapist>/', GetActivitiesByTherapistDetailed.as_view()),
     ## Sessions -----------------------------------------------------------------------------
     path('api/session/create', SessionCreateAPI.as_view()),
     path('api/session/update/<str:pk>', SessionUpdateAPI.as_view()),
