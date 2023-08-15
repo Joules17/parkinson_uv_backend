@@ -70,6 +70,7 @@ from parkinsonUV_app.API.ListGames.listGamesViews import (
     ListUpdateApi,
     ListRetreiveApi,
     RetreiveAllList,
+    RetreiveTherapistLists,
     DeleteListApi,
 
     GameListCreateApi,
@@ -162,6 +163,7 @@ urlpatterns = [
     path('api/list/create', ListCreateApi.as_view()), 
     path('api/list/update/<str:pk>', ListUpdateApi.as_view()),
     path('api/list/retreive/<str:pk>', ListRetreiveApi.as_view()), 
+    path('api/list/retreive/therapist/<str:id_therapist>/', RetreiveTherapistLists.as_view()),
     path('api/list/retreive/', RetreiveAllList.as_view()),
     path('api/list/delete/<str:pk>', DeleteListApi.as_view()),
     ## Activities ---------------------------------------------------------------------------
