@@ -5,11 +5,10 @@ from .serializers import (
     ListGamesSerializerSetting,
     ListCreateSerializer
 )
-
+from rest_framework.views import APIView
 from parkinsonUV_app.models import List, Game_list, Game
 from rest_framework.response import Response
 from rest_framework import permissions, status
-from rest_framework.views import APIView
 
 import http.client
 import json, os
@@ -60,6 +59,35 @@ class RetreiveAllList(ListAPIView):
     model = List
     permission_classes = [permissions.AllowAny]
     queryset = List.objects.all()
+
+class RetreiveTherapistLists(APIView): 
+    def get(self, request, id_therapist): 
+        created_list = List.objects.filter(id_therapist = id_therapist)
+        ## arreglo result con todas las listas asignadas al id_therapist del parametro 
+        result = []
+        for lista in created_list: 
+            data_list = {
+                "id": lista.id,
+                "name": lista.name,
+                "id_therapist" : lista.id_therapist_id
+            }
+            lista_games = Game_list.objects.filter(id_list = lista.id)
+            result_lista_games = []
+            for juego in lista_games: 
+                game_info = {
+                    "id" : juego.id_game.id, 
+                    "id_type": juego.id_game.id_type.type,
+                    "name" : juego.id_game.name,
+                    "description" : juego.id_game.description,
+                    "game_picture" : juego.id_game.game_picture,
+                    "setting" : juego.setting, 
+                    "id_game_list" : juego.id
+                }
+                result_lista_games.append(game_info)
+            data_list["games"] = result_lista_games
+            result.append(data_list)
+            
+        return Response(result)
 
 class DeleteListApi(DestroyAPIView): 
     serializer_class = ListSerializer
