@@ -4,9 +4,9 @@ from parkinsonUV_app.models import Activity
 class ActivitySerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Activity
-        fields = ['id', 'name', 'description', 'interval', 'last_scheduled_date', 'id_list', 'id_patient', 'id_therapist']
+        fields = ['id', 'name', 'description', 'start_date', 'end_date', 'status', 'id_list', 'id_patient', 'id_therapist']
 
 class ActivitySerializerWithoutPK(serializers.ModelSerializer): 
     class Meta: 
         model = Activity
-        fields = ['name', 'description', 'interval', 'last_scheduled_date', 'id_list', 'id_patient', 'id_therapist']
+        fields = ['name', 'description', 'start_date', 'end_date', 'status', 'id_list', 'id_patient', 'id_therapist']
