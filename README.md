@@ -20,6 +20,13 @@ Crear o tener ambiente virtual de Python y activarlo:
   python -m venv myenv
   cd myenv/scripts/activate
 ```
+### Clonamos el repo en myenv
+Clonamos el repo en el ambient evirtual de Python y luego entramos en él: 
+
+```bash
+  git clone https://github.com/Joules17/parkinson_uv_backend.git
+  cd parkinson_uv_backend
+```
 
 ### Instalar dependencias
 
