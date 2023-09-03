@@ -9,6 +9,9 @@ from parkinsonUV_app.models import Activity, List, Patient, Therapist
 from rest_framework.response import Response
 from rest_framework import permissions, status
 
+from datetime import date
+from django.http import HttpResponse
+
 class ActivityCreateAPI(CreateAPIView):
     serializer_class = ActivitySerializer
     model = Activity
@@ -111,3 +114,16 @@ class GetActivitiesByPatientDetailed(APIView):
             }
             result.append(activity_data)
         return Response(result)
+
+
+class UpdateActivitiesStatus(APIView):
+     def get(self, request):
+        # update activities statuses according to date
+        activities_to_update = Activity.objects.filter(status='Pendiente', end_date__lt=date.today())
+        activities_to_update.update(status='Caducado')
+
+        return HttpResponse('Estado de actividades actualizado correctamente')
+
+
+
+
