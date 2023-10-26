@@ -1,7 +1,8 @@
 from rest_framework.generics import CreateAPIView, UpdateAPIView, RetrieveAPIView, ListAPIView, DestroyAPIView
 from .serializers import (
     ActivitySerializer,
-    ActivitySerializerWithoutPK
+    ActivitySerializerWithoutPK,
+    ActivitySerializerWithoutPKStatus
 )
 
 from rest_framework.views import APIView
@@ -123,6 +124,20 @@ class UpdateActivitiesStatus(APIView):
         activities_to_update.update(status='Caducado')
 
         return HttpResponse('Estado de actividades actualizado correctamente')
+     
+class ActivityStatusUpdateAPI(UpdateAPIView):
+    serializer_class = ActivitySerializerWithoutPKStatus
+    permission_classes = [permissions.AllowAny]
+    queryset = Activity.objects.all()
+
+    def partial_update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        partial = request.data.get("status")  # Obtén el nuevo valor del campo 'status' desde la solicitud
+        if partial is not None:
+            instance.status = partial  # Actualiza el campo 'status'
+            instance.save()
+            return Response(self.get_serializer(instance).data)
+        return Response({"status": "No se proporcionó el campo 'status' en la solicitud."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

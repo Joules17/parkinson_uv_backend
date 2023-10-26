@@ -54,3 +54,13 @@ class DeleteSessionAPI(DestroyAPIView):
         Session = self.get_object()
         Session.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
+    
+class SessionIdView(RetrieveAPIView):
+    def get(self, request, id_activity, id_patient):
+        try:
+            session = Session.objects.get(id_activity=id_activity, id_patient=id_patient)
+            session_id = session.id
+            return Response({'session_id': session_id}, status=status.HTTP_200_OK)
+        except Session.DoesNotExist:
+            return Response({'error': 'Sesión no encontrada'}, status=status.HTTP_404_NOT_FOUND)
+        
