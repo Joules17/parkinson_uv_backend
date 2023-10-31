@@ -6,7 +6,7 @@ from .serializers import (
     ListCreateSerializer
 )
 from rest_framework.views import APIView
-from parkinsonUV_app.models import List, Game_list, Game
+from parkinsonUV_app.models import List, Game_list, Game, Activity
 from rest_framework.response import Response
 from rest_framework import permissions, status
 
@@ -99,6 +99,16 @@ class DeleteListApi(DestroyAPIView):
         List = self.get_object()
         List.delete()
         return Response(status = status.HTTP_204_NO_CONTENT)
+
+## New function to check if there're related activities to one List register ------------------------------------
+class CheckListInActivity(APIView):
+    def get(self, request, pk):
+        try:
+            list_instance = List.objects.get(pk=pk)
+            is_assigned = Activity.objects.filter(id_list=list_instance).exists()
+            return Response({'is_assigned': is_assigned}, status=status.HTTP_200_OK)
+        except List.DoesNotExist:
+            return Response({'error': 'List not found'}, status=status.HTTP_404_NOT_FOUND)
 
 ## Game List -------------------------------------------------------------------------------------------------
 
