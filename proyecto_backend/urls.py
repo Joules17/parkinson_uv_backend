@@ -203,5 +203,7 @@ urlpatterns = [
 
     ## Logs -----------------------------------------------------------------------------
     path('api/logs/create', LogsCreateAPI.as_view()),
+    path('api/logs/delete/<str:pk>', DeleteLogsAPI.as_view()),
+    path('api/logs/retreive/', RetreiveAllLogs.as_view()),
     path('api/logs/session/<int:id_session>', LogsBySessionAPI.as_view())
 ]
