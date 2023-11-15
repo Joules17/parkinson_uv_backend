@@ -112,6 +112,7 @@ from parkinsonUV_app.API.Sessions.sessionsViews import (
     RetreiveAllSessions,
     DeleteSessionAPI,
     SessionIdView,
+    GetSessionsByTherapistDetailed,
 )
 
 ## Logs
@@ -200,7 +201,7 @@ urlpatterns = [
     path('api/session/retreive/', RetreiveAllSessions.as_view()),
     path('api/session/delete/<str:pk>', DeleteSessionAPI.as_view()),
     path('api/session/getId/<int:id_activity>/<str:id_patient>', SessionIdView.as_view()),
-
+    path('api/session/retreive/therapist/<str:id_therapist>/', GetSessionsByTherapistDetailed.as_view()),
     ## Logs -----------------------------------------------------------------------------
     path('api/logs/create', LogsCreateAPI.as_view()),
     path('api/logs/session/<int:id_session>', LogsBySessionAPI.as_view())

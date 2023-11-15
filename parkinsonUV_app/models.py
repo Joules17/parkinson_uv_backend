@@ -87,3 +87,12 @@ class Logs(models.Model):
     id_session= models.ForeignKey(Session, on_delete = models.CASCADE)
     id_game_list= models.ForeignKey(Game_list, on_delete= models.CASCADE)
     log= models.JSONField()
+
+class Report(models.Model): 
+    id = models.AutoField(primary_key = True)
+    date_created = models.DateField(auto_now_add=True)
+    patient = models.ForeignKey(Patient, on_delete = models.CASCADE)
+    total_played_time = models.IntegerField(default= 0)
+    avg_round_time = models.IntegerField(default= 0)
+    total_errors = models.IntegerField(default= 0)
+    total_games_played = models.IntegerField(default= 0)

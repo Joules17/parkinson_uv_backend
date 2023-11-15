@@ -4,6 +4,7 @@ from .serializers import (
     SessionSerializerWithoutPK
 )
 
+from rest_framework.views import APIView
 from parkinsonUV_app.models import Session, Activity, Patient, Therapist
 from rest_framework.response import Response
 from rest_framework import permissions, status
@@ -64,3 +65,28 @@ class SessionIdView(RetrieveAPIView):
         except Session.DoesNotExist:
             return Response({'error': 'Sesión no encontrada'}, status=status.HTTP_404_NOT_FOUND)
         
+class GetSessionsByTherapistDetailed(APIView): 
+    def get(self, request, id_therapist): 
+        assigned_sessions = Session.objects.filter(id_therapist = id_therapist)
+
+        result = []
+        for session in assigned_sessions: 
+            session_data = {
+                "id": session.id,
+                "date_start" : session.date_start,
+                "date_end" : session.date_end,
+                "id_activity" : session.id_activity.id,
+                "activity_name" : session.id_activity.name,
+                "activity_status" : session.id_activity.status,
+                "id_patient" : session.id_patient_id,
+                "patient_name" : session.id_patient.name,
+                "patient_lastname" : session.id_patient.lastname,
+                "patient_picture" : session.id_patient.user_id.user_picture,
+                "id_therapist" : session.id_therapist_id,
+                "therapist_name" : session.id_therapist.name,
+                "therapist_lastname" : session.id_therapist.lastname,
+                "therapist_picture" : session.id_therapist.user_id.user_picture
+            }
+
+            result.append(session_data)
+        return Response(result)
