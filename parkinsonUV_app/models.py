@@ -55,6 +55,7 @@ class Game_list(models.Model):
     id_list = models.ForeignKey('List', on_delete=models.CASCADE)
     id_game = models.ForeignKey(Game, on_delete=models.CASCADE)
     setting = models.JSONField(null="true")
+    is_played = models.BooleanField(default=False)
 
 class List(models.Model):
     name = models.CharField(max_length=100)
@@ -75,9 +76,23 @@ class Activity(models.Model):
 
 class Session(models.Model): 
     id = models.AutoField(primary_key = True)
-    date_start = models.DateTimeField()
-    date_end = models.DateTimeField()
-    log = models.CharField(max_length = 1000)
+    date_start = models.DateTimeField(null=True)
+    date_end = models.DateTimeField(null=True)
     id_activity = models.ForeignKey(Activity, on_delete = models.CASCADE)
     id_patient = models.ForeignKey(Patient, on_delete = models.CASCADE)
     id_therapist = models.ForeignKey(Therapist, on_delete = models.CASCADE)
+
+class Logs(models.Model):
+    id = models.AutoField(primary_key = True)
+    id_session= models.ForeignKey(Session, on_delete = models.CASCADE)
+    id_game_list= models.ForeignKey(Game_list, on_delete= models.CASCADE)
+    log= models.JSONField()
+
+class Report(models.Model): 
+    id = models.AutoField(primary_key = True)
+    date_created = models.DateField(auto_now_add=True)
+    patient = models.ForeignKey(Patient, on_delete = models.CASCADE)
+    total_played_time = models.IntegerField(default= 0)
+    avg_round_time = models.IntegerField(default= 0)
+    total_errors = models.IntegerField(default= 0)
+    total_games_played = models.IntegerField(default= 0)

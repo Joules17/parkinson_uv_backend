@@ -72,6 +72,7 @@ from parkinsonUV_app.API.ListGames.listGamesViews import (
     RetreiveAllList,
     RetreiveTherapistLists,
     DeleteListApi,
+    CheckListInActivity, 
 
     GameListCreateApi,
     GameListUpdateApi,
@@ -99,7 +100,8 @@ from parkinsonUV_app.API.Activity.activityViews import (
     UpdateActivitiesStatus,
     DeleteActivityApi,
     GetActivitiesByTherapistDetailed,
-    GetActivitiesByPatientDetailed
+    GetActivitiesByPatientDetailed,
+    ActivityStatusUpdateAPI,
 )
 
 ## Sessions
@@ -108,7 +110,19 @@ from parkinsonUV_app.API.Sessions.sessionsViews import (
     SessionRetreiveAPI,
     SessionUpdateAPI,
     RetreiveAllSessions,
-    DeleteSessionAPI
+    DeleteSessionAPI,
+    SessionIdView,
+    GetSessionsByTherapistDetailed,
+)
+
+## Logs
+from parkinsonUV_app.API.Logs.logsViews import (
+    LogsCreateAPI,
+    LogsRetreiveAPI,
+    LogsUpdateAPI,
+    RetreiveAllLogs,
+    DeleteLogsAPI,
+    LogsBySessionAPI
 )
 
 urlpatterns = [
@@ -168,6 +182,7 @@ urlpatterns = [
     path('api/list/retreive/therapist/<str:id_therapist>/', RetreiveTherapistLists.as_view()),
     path('api/list/retreive/', RetreiveAllList.as_view()),
     path('api/list/delete/<str:pk>', DeleteListApi.as_view()),
+    path('api/list/check/<str:pk>', CheckListInActivity.as_view()), 
     ## Activities ---------------------------------------------------------------------------
     path('api/activity/create', ActivityCreateAPI.as_view()),
     path('api/activity/update/<str:pk>', ActivityUpdateAPI.as_view()),
@@ -177,10 +192,19 @@ urlpatterns = [
     path('api/activity/retreive/therapist/<str:id_therapist>/', GetActivitiesByTherapistDetailed.as_view()),
     path('api/activity/retreive/patient/<str:id_patient>/', GetActivitiesByPatientDetailed.as_view()),
     path('api/activity/statuses', UpdateActivitiesStatus.as_view()),
+    path('api/activity/update/status/<str:pk>', ActivityStatusUpdateAPI.as_view()),
+
     ## Sessions -----------------------------------------------------------------------------
     path('api/session/create', SessionCreateAPI.as_view()),
     path('api/session/update/<str:pk>', SessionUpdateAPI.as_view()),
     path('api/session/retreive/<str:pk>', SessionRetreiveAPI.as_view()),
     path('api/session/retreive/', RetreiveAllSessions.as_view()),
     path('api/session/delete/<str:pk>', DeleteSessionAPI.as_view()),
+    path('api/session/getId/<int:id_activity>/<str:id_patient>', SessionIdView.as_view()),
+    path('api/session/retreive/therapist/<str:id_therapist>/', GetSessionsByTherapistDetailed.as_view()),
+    ## Logs -----------------------------------------------------------------------------
+    path('api/logs/create', LogsCreateAPI.as_view()),
+    path('api/logs/delete/<str:pk>', DeleteLogsAPI.as_view()),
+    path('api/logs/retreive/', RetreiveAllLogs.as_view()),
+    path('api/logs/session/<int:id_session>', LogsBySessionAPI.as_view())
 ]
