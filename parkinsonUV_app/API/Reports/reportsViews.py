@@ -1,7 +1,7 @@
 from .serializers import ReportSerializer
 from rest_framework.views import APIView
 from rest_framework.generics import DestroyAPIView
-from parkinsonUV_app.models import Patient, Logs, Report
+from parkinsonUV_app.models import Patient, Logs, Report, Activity
 from django.db.models import Avg, Sum, F, fields, Count
 from django.db.models.functions import Cast, Coalesce
 from rest_framework.response import Response
@@ -91,6 +91,8 @@ class ReportRetreiveAPI(APIView):
             result.append(report_data)
         return Response(result)
 
+
+
 class GetReportsByTherapistDetailed(APIView):
     def get(self, request, id_therapist):
         reports_detailed = Report.objects.filter(patient__id_therapist__user_id = id_therapist)
@@ -113,6 +115,36 @@ class GetReportsByTherapistDetailed(APIView):
 
             result.append(report_data)
         return Response(result)
+
+class GetStatsByTherapistDetailed(APIView):
+    def get(self, request, id_therapist):
+        activities_all = Activity.objects.filter(id_therapist__user_id = id_therapist)
+
+        ## Total de actividades
+        total_activities = activities_all.count()
+
+        ## Total de actividades pendientes
+        total_activities_pending = activities_all.filter(status = 'Pendiente').count()
+
+        ## Total de actividades en curso
+        total_activities_in_progress = activities_all.filter(status = 'En curso').count()
+
+        ## Total de actividades terminadas
+        total_activities_finished = activities_all.filter(status = 'Realizada').count()
+
+        ## Total de actividades caducadas
+        total_activities_lost = activities_all.filter(status = 'Caducada').count()
+
+
+        response_data = {
+            'total_activities': total_activities,
+            'total_activities_pending': total_activities_pending,
+            'total_activities_in_progress': total_activities_in_progress,
+            'total_activities_finished': total_activities_finished,
+            'total_activities_lost': total_activities_lost
+        }
+
+        return Response(response_data, status =status.HTTP_200_OK)
 
 class DeleteReportApi(DestroyAPIView):
     serializer_class = ReportSerializer
