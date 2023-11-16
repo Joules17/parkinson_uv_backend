@@ -1,11 +1,12 @@
 from .serializers import ReportSerializer
 from rest_framework.views import APIView
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import DestroyAPIView
 from parkinsonUV_app.models import Patient, Logs, Report
-from django.db.models import Avg, Sum, Q, F, ExpressionWrapper, fields, Count
-from django.db.models.functions import Cast
+from django.db.models import Avg, Sum, F, fields, Count
+from django.db.models.functions import Cast, Coalesce
+from rest_framework.response import Response
 from django.http import HttpResponse
-from rest_framework import permissions
+from rest_framework import permissions, status
 from django.db import IntegrityError
 from datetime import date
 from django.db import transaction
@@ -14,49 +15,50 @@ from django.db.models import Value
 class CreateReports(APIView):
     permission_classes = [permissions.AllowAny]
 
-    def get(self, request): 
-        patients = Patient.objects.all(); 
+    def get(self, request):
+        patients = Patient.objects.all()
 
         for patient in patients:
-            logs = Logs.objects.filter(id_session__id_patient__user_id__user_id=str(patient.user_id.user_id))
-            print('QUIERO VER ESE QUERY', logs.query)
-            # Filtrar logs "malos"
-            logs = logs.exclude(
-                Q(log__errores_isNumeric=False) |
-                Q(log__tiempo_total__isnumeric=False) |
-                Q(log__number_rondas__isnumeric=False) |
-                Q(log__tiempo_rondas__isnumeric=False) 
+            logs = Logs.objects.filter(id_session__id_patient__user_id__user_id=patient.user_id.user_id)
+            print('QUE PUTAS PASA ESTOY CANSADO Y CON SUEÑO', logs)
+            for log in logs:
+                print('Vamos a ver que es este log', log)
+            # Reemplazar valores None o no numéricos por cero
+            logs = logs.annotate(
+                tiempo_total=Coalesce(
+                    Cast(F('log__tiempo_total'), output_field=fields.FloatField()),
+                    Value(0)
+                ),
+                tiempo_rondas=Coalesce(
+                    Cast(F('log__tiempo_rondas'), output_field=fields.FloatField()),
+                    Value(0)
+                ),
+                errores=Coalesce(
+                    Cast(F('log__errores'), output_field=fields.FloatField()),
+                    Value(0)
+                ),
+                number_rondas=Coalesce(
+                    Cast(F('log__number_rondas'), output_field=fields.FloatField()),
+                    Value(0)
+                )
             )
 
-            ## HACER EL PRINT JUSTO AQUI DE LOS ELEMENTOS ERRORES TIEMPO TOTAL NUMBER RONDAS Y TIEMPO RONDAS DE CADA LOG
-            print('HOLA BEBIBIIII******************************************** TAMAÑO DE LOG:', len(logs), ' VAMOS A VER LOS HUEVOS DE ESE PACIENTE ', patient.name, patient.user_id.user_id)
-            for log in logs: 
-                print('Hola, esto es un aviso informativo del paciente', patient.name, 'y el log', log.id, 'y sus errores son', log.log.errores, 'y su tiempo total es', log.log.tiempo_total, 'y su numero de rondas es', log.log.number_rondas, 'y su tiempo de rondas es', log.log.tiempo_rondas)
-            
             with transaction.atomic():
                 try:
                     # Crear un nuevo informe para el paciente
                     Report.objects.create(
                         patient=patient,
                         total_played_time=logs.aggregate(
-                            total_played_time_sum=Sum(
-                                Cast(F('log__tiempo_total__item__tiempo_total'), output_field=fields.FloatField())
-                            )
+                            total_played_time_sum=Sum(Cast(F('tiempo_total'), output_field=fields.FloatField()))
                         ).get('total_played_time_sum', 0),
                         avg_round_time=logs.aggregate(
-                            avg_round_time_avg=Avg(
-                                Cast(F('log__tiempo_rondas'), output_field=fields.FloatField())
-                            )
+                            avg_round_time_avg=Avg(Cast(F('tiempo_rondas'), output_field=fields.FloatField()))
                         ).get('avg_round_time_avg', 0),
                         total_errors=logs.aggregate(
-                            total_errors_sum=Sum(
-                                Cast(F('log__errores'), output_field=fields.FloatField())
-                            )
+                            total_errors_sum=Sum(Cast(F('errores'), output_field=fields.FloatField()))
                         ).get('total_errors_sum', 0),
                         total_rounds_played=logs.aggregate(
-                            total_rounds_played_sum=Sum(
-                                Cast(F('log__number_rondas'), output_field=fields.FloatField())
-                            )
+                            total_rounds_played_sum=Sum(Cast(F('number_rondas'), output_field=fields.FloatField()))
                         ).get('total_rounds_played_sum', 0),
                         total_games_played=logs.count()
                     )
@@ -67,8 +69,58 @@ class CreateReports(APIView):
 
         return HttpResponse('Reportes creados para todos los pacientes actualmente existentes')
 
-class ReportRetreiveAPI(ListAPIView): 
+class ReportRetreiveAPI(APIView):
+    def get(self, request):
+        reports_detailed  = Report.objects.all()
+        result = []
+        for report in reports_detailed:
+            report_data = {
+                'id': report.id,
+                'date_created': report.date_created,
+                'patient_id': report.patient.user_id.user_id,
+                'patient_name': report.patient.name,
+                'patient_lastname': report.patient.lastname,
+                'patient_picture': report.patient.user_id.user_picture,
+                'patient_parkinson_phase' : report.patient.id_parkinson_phase.id,
+                'total_played_time': report.total_played_time,
+                'avg_round_time': report.avg_round_time,
+                'total_errors': report.total_errors,
+                'total_rounds_played': report.total_rounds_played,
+                'total_games_played': report.total_games_played
+            }
+            result.append(report_data)
+        return Response(result)
+
+class GetReportsByTherapistDetailed(APIView):
+    def get(self, request, id_therapist):
+        reports_detailed = Report.objects.filter(patient__id_therapist__user_id = id_therapist)
+        result = []
+        for report in reports_detailed:
+            report_data = {
+                'id': report.id,
+                'date_created': report.date_created,
+                'patient_id': report.patient.user_id.user_id,
+                'patient_name': report.patient.name,
+                'patient_lastname': report.patient.lastname,
+                'patient_picture': report.patient.user_id.user_picture,
+                'patient_parkinson_phase' : report.patient.id_parkinson_phase.id,
+                'total_played_time': report.total_played_time,
+                'avg_round_time': report.avg_round_time,
+                'total_errors': report.total_errors,
+                'total_rounds_played': report.total_rounds_played,
+                'total_games_played': report.total_games_played
+            }
+
+            result.append(report_data)
+        return Response(result)
+
+class DeleteReportApi(DestroyAPIView):
     serializer_class = ReportSerializer
     model = Report
     permission_classes = [permissions.AllowAny]
     queryset = Report.objects.all()
+
+    def delete(self, request, pk, format = None):
+        Report = self.get_object()
+        Report.delete()
+        return Response(status = status.HTTP_204_NO_CONTENT)
