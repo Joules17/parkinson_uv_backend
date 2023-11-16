@@ -125,6 +125,11 @@ from parkinsonUV_app.API.Logs.logsViews import (
     LogsBySessionAPI
 )
 
+from parkinsonUV_app.API.Reports.reportsViews import (
+    CreateReports,
+    ReportRetreiveAPI
+)
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     ## Auth --------------------------------------------------------------------------------
@@ -206,5 +211,8 @@ urlpatterns = [
     path('api/logs/create', LogsCreateAPI.as_view()),
     path('api/logs/delete/<str:pk>', DeleteLogsAPI.as_view()),
     path('api/logs/retreive/', RetreiveAllLogs.as_view()),
-    path('api/logs/session/<int:id_session>', LogsBySessionAPI.as_view())
+    path('api/logs/session/<int:id_session>', LogsBySessionAPI.as_view()),
+    ## Reports -----------------------------------------------------------------------------
+    path('api/reports/create', CreateReports.as_view()),
+    path('api/reports/retreive/', ReportRetreiveAPI.as_view()),
 ]
