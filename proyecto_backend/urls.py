@@ -130,7 +130,9 @@ from parkinsonUV_app.API.Reports.reportsViews import (
     ReportRetreiveAPI,
     DeleteReportApi,
     GetReportsByTherapistDetailed,
-    GetStatsByTherapistDetailed
+    GetStatsByTherapistDetailed, 
+    GetReportsByPatientDetailed, 
+    GetStatsByPatientDetailed
 )
 
 urlpatterns = [
@@ -221,4 +223,6 @@ urlpatterns = [
     path('api/reports/delete/<str:pk>', DeleteReportApi.as_view()),
     path('api/reports/retreive/therapist/<str:id_therapist>/', GetReportsByTherapistDetailed.as_view()),
     path('api/reports/stats/therapist/<str:id_therapist>/', GetStatsByTherapistDetailed.as_view()),
+    path('api/reports/retreive/patient/<str:id_patient>/', GetReportsByPatientDetailed.as_view()),
+    path('api/reports/stats/patient/<str:id_patient>/', GetStatsByPatientDetailed.as_view()),
 ]
