@@ -20,7 +20,6 @@ class CreateReports(APIView):
 
         for patient in patients:
             logs = Logs.objects.filter(id_session__id_patient__user_id__user_id=patient.user_id.user_id)
-            print('QUE PUTAS PASA ESTOY CANSADO Y CON SUEÑO', logs)
             for log in logs:
                 print('Vamos a ver que es este log', log)
             # Reemplazar valores None o no numéricos por cero
@@ -104,6 +103,7 @@ class GetReportsByTherapistDetailed(APIView):
                 'patient_id': report.patient.user_id.user_id,
                 'patient_name': report.patient.name,
                 'patient_lastname': report.patient.lastname,
+                'patient_gender': report.patient.gender,
                 'patient_picture': report.patient.user_id.user_picture,
                 'patient_parkinson_phase' : report.patient.id_parkinson_phase.id,
                 'total_played_time': report.total_played_time,
