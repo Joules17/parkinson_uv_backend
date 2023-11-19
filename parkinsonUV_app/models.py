@@ -95,4 +95,5 @@ class Report(models.Model):
     total_played_time = models.IntegerField(default= 0)
     avg_round_time = models.IntegerField(default= 0)
     total_errors = models.IntegerField(default= 0)
+    total_rounds_played = models.IntegerField(default= 0)
     total_games_played = models.IntegerField(default= 0)

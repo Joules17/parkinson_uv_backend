@@ -72,7 +72,7 @@ from parkinsonUV_app.API.ListGames.listGamesViews import (
     RetreiveAllList,
     RetreiveTherapistLists,
     DeleteListApi,
-    CheckListInActivity, 
+    CheckListInActivity,
 
     GameListCreateApi,
     GameListUpdateApi,
@@ -126,6 +126,15 @@ from parkinsonUV_app.API.Logs.logsViews import (
 )
 
 app_name = 'parkinsonUV_app'
+from parkinsonUV_app.API.Reports.reportsViews import (
+    CreateReports,
+    ReportRetreiveAPI,
+    DeleteReportApi,
+    GetReportsByTherapistDetailed,
+    GetStatsByTherapistDetailed, 
+    GetReportsByPatientDetailed, 
+    GetStatsByPatientDetailed
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -184,7 +193,7 @@ urlpatterns = [
     path('api/list/retreive/therapist/<str:id_therapist>/', RetreiveTherapistLists.as_view()),
     path('api/list/retreive/', RetreiveAllList.as_view(), name='create-list'),
     path('api/list/delete/<str:pk>', DeleteListApi.as_view()),
-    path('api/list/check/<str:pk>', CheckListInActivity.as_view()), 
+    path('api/list/check/<str:pk>', CheckListInActivity.as_view()),
     ## Activities ---------------------------------------------------------------------------
     path('api/activity/create', ActivityCreateAPI.as_view()),
     path('api/activity/update/<str:pk>', ActivityUpdateAPI.as_view()),
@@ -208,5 +217,13 @@ urlpatterns = [
     path('api/logs/create', LogsCreateAPI.as_view()),
     path('api/logs/delete/<str:pk>', DeleteLogsAPI.as_view()),
     path('api/logs/retreive/', RetreiveAllLogs.as_view()),
-    path('api/logs/session/<int:id_session>', LogsBySessionAPI.as_view())
+    path('api/logs/session/<int:id_session>', LogsBySessionAPI.as_view()),
+    ## Reports -----------------------------------------------------------------------------
+    path('api/reports/create', CreateReports.as_view()),
+    path('api/reports/retreive/', ReportRetreiveAPI.as_view()),
+    path('api/reports/delete/<str:pk>', DeleteReportApi.as_view()),
+    path('api/reports/retreive/therapist/<str:id_therapist>/', GetReportsByTherapistDetailed.as_view()),
+    path('api/reports/stats/therapist/<str:id_therapist>/', GetStatsByTherapistDetailed.as_view()),
+    path('api/reports/retreive/patient/<str:id_patient>/', GetReportsByPatientDetailed.as_view()),
+    path('api/reports/stats/patient/<str:id_patient>/', GetStatsByPatientDetailed.as_view()),
 ]
