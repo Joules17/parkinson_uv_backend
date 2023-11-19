@@ -125,48 +125,50 @@ from parkinsonUV_app.API.Logs.logsViews import (
     LogsBySessionAPI
 )
 
+app_name = 'parkinsonUV_app'
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     ## Auth --------------------------------------------------------------------------------
     path('api/auth/retrieve', AccountAuthRetreiveApi.as_view()),
     ## Accounts ----------------------------------------------------------------------------
-    path('api/account/create', AccountCreateApi.as_view()),
-    path('api/account/update/<str:pk>', AccountUpdateApi.as_view()),
-    path('api/account/retreive/<str:pk>', AccountRetrieveApi.as_view()),
-    path('api/account/retreive/', RetreiveAllAccounts.as_view()),
-    path('api/account/delete/<str:pk>', DeleteAccountApi.as_view()),
-    path('api/account/update/status/<str:pk>', AccountUpdateStatusApi.as_view()),
+    path('api/account/create', AccountCreateApi.as_view(), name='account-create'),
+    path('api/account/update/<str:pk>', AccountUpdateApi.as_view(), name='account-update'),
+    path('api/account/retreive/<str:pk>', AccountRetrieveApi.as_view(), name='account-retrieve'),
+    path('api/account/retreive/', RetreiveAllAccounts.as_view(), name='account-retrieve-all'),
+    path('api/account/delete/<str:pk>', DeleteAccountApi.as_view(), name='account-delete'),
+    path('api/account/update/status/<str:pk>', AccountUpdateStatusApi.as_view(), name='account-update-status'),
     ## Therapists ----------------------------------------------------------------------------
-    path('api/therapist/create', TherapistCreateApi.as_view()),
-    path('api/therapist/update/<str:pk>', TherapistUpdateApi.as_view()),
-    path('api/therapist/retreive/<str:pk>', TherapistRetrieveApi.as_view()),
-    path('api/therapist/retreive/detailed/<str:user_id>', getTherapistDetailed.as_view()),
-    path('api/therapist/retreive/', RetreiveAllTherapists.as_view()),
+    path('api/therapist/create', TherapistCreateApi.as_view(), name='therapist-create'),
+    path('api/therapist/update/<str:pk>', TherapistUpdateApi.as_view(), name='therapist-update'),
+    path('api/therapist/retreive/<str:pk>', TherapistRetrieveApi.as_view(), name='therapist-retrieve'),
+    path('api/therapist/retreive/detailed/<str:user_id>', getTherapistDetailed.as_view(), name='therapist-retrieve-detailed'),
+    path('api/therapist/retreive/', RetreiveAllTherapists.as_view(), name='therapist-retrieve-all'),
     ## Patients  ----------------------------------------------------------------------------
-    path('api/patient/create', PatientCreateApi.as_view()),
+    path('api/patient/create', PatientCreateApi.as_view(), name='patient-create'),
     path('api/patient/update/<str:pk>', PatientUpdateApi.as_view()),
     path('api/patient/update/assignee/<str:pk>', PatientUpdateAssigneeApi.as_view()),
     path('api/patient/retreive/<str:pk>', PatientRetrieveApi.as_view()),
     path('api/patient/retreive/detailed/<str:user_id>', GetPatientDetailed.as_view()),
-    path('api/patient/retreive/', RetreiveAllPatients.as_view()),
+    path('api/patient/retreive/', RetreiveAllPatients.as_view(), name='patient-retrieve-all'),
     path('api/patient/retreive/therapist/<str:id_therapist>/', RetreiveTherapistPatients.as_view()),
     ## Games --------------------------------------------------------------------------------
     path('api/game/create', GameCreateApi.as_view()),
     path('api/game/update/<str:pk>', GameUpdateApi.as_view()),
     path('api/game/retreive/<str:pk>', GameRetreiveApi.as_view()),
-    path('api/game/retreive/', RetreiveAllGamesWithType.as_view()),
+    path('api/game/retreive/', RetreiveAllGamesWithType.as_view(), name='game-retrieve-all'),
     path('api/game/delete/<str:pk>', DeleteGameApi.as_view()),
     ## Game_Type ----------------------------------------------------------------------------
     path('api/game_type/create', GameTypeCreateApi.as_view()),
     path('api/game_type/update/<str:pk>', GameTypeUpdateApi.as_view()),
     path('api/game_type/retreive/<str:pk>', GameTypeRetreiveApi.as_view()),
-    path('api/game_type/retreive/', RetreiveAllGameTypes.as_view()),
+    path('api/game_type/retreive/', RetreiveAllGameTypes.as_view(), name='game-type-retrieve-all'),
     path('api/game_type/delete/<str:pk>', DeleteGameTypeApi.as_view()),
     ## Parkinson Phases ---------------------------------------------------------------------
     path('api/parkinson/create', ParkinsonCreateApi.as_view()),
     path('api/parkinson/update/<str:pk>', ParkinsonUpdateApi.as_view()),
     path('api/parkinson/retreive/<str:pk>', ParkinsonRetrieveApi.as_view()),
-    path('api/parkinson/retreive/', RetreiveAllParkinsons.as_view()),
+    path('api/parkinson/retreive/', RetreiveAllParkinsons.as_view(), name='parkinson-retrieve-all'),
     path('api/parkinson/delete/<str:pk>', DeleteParkinsonApi.as_view()),
     ## Games List ---------------------------------------------------------------------------
     path('api/game_list/create', GameListCreateApi.as_view()),
@@ -180,14 +182,14 @@ urlpatterns = [
     path('api/list/update/<str:pk>', ListUpdateApi.as_view()),
     path('api/list/retreive/<str:pk>', ListRetreiveApi.as_view()),
     path('api/list/retreive/therapist/<str:id_therapist>/', RetreiveTherapistLists.as_view()),
-    path('api/list/retreive/', RetreiveAllList.as_view()),
+    path('api/list/retreive/', RetreiveAllList.as_view(), name='create-list'),
     path('api/list/delete/<str:pk>', DeleteListApi.as_view()),
     path('api/list/check/<str:pk>', CheckListInActivity.as_view()), 
     ## Activities ---------------------------------------------------------------------------
     path('api/activity/create', ActivityCreateAPI.as_view()),
     path('api/activity/update/<str:pk>', ActivityUpdateAPI.as_view()),
     path('api/activity/retreive/<str:pk>', ActivityRetreiveAPI.as_view()),
-    path('api/activity/retreive/', RetreiveAllActivities.as_view()),
+    path('api/activity/retreive/', RetreiveAllActivities.as_view(), name='create-activity'),
     path('api/activity/delete/<str:pk>', DeleteActivityApi.as_view()),
     path('api/activity/retreive/therapist/<str:id_therapist>/', GetActivitiesByTherapistDetailed.as_view()),
     path('api/activity/retreive/patient/<str:id_patient>/', GetActivitiesByPatientDetailed.as_view()),
@@ -198,7 +200,7 @@ urlpatterns = [
     path('api/session/create', SessionCreateAPI.as_view()),
     path('api/session/update/<str:pk>', SessionUpdateAPI.as_view()),
     path('api/session/retreive/<str:pk>', SessionRetreiveAPI.as_view()),
-    path('api/session/retreive/', RetreiveAllSessions.as_view()),
+    path('api/session/retreive/', RetreiveAllSessions.as_view(), name='create-session'),
     path('api/session/delete/<str:pk>', DeleteSessionAPI.as_view()),
     path('api/session/getId/<int:id_activity>/<str:id_patient>', SessionIdView.as_view()),
     path('api/session/retreive/therapist/<str:id_therapist>/', GetSessionsByTherapistDetailed.as_view()),
