@@ -19,7 +19,7 @@ from rest_framework.response import Response
 from django.db import transaction
 
 class ListCreateApi(CreateAPIView):
-    serializer_class = ListCreateSerializer
+    serializer_class = ListSerializer
     model = List
     permission_classes = [permissions.AllowAny]
 
