@@ -133,7 +133,7 @@ class GetStatsByTherapistDetailed(APIView):
         total_activities_finished = activities_all.filter(status = 'Realizada').count()
 
         ## Total de actividades caducadas
-        total_activities_lost = activities_all.filter(status = 'Caducada').count()
+        total_activities_lost = activities_all.filter(status = 'Caducado').count()
 
 
         response_data = {
