@@ -110,6 +110,18 @@ class CheckListInActivity(APIView):
         except List.DoesNotExist:
             return Response({'error': 'List not found'}, status=status.HTTP_404_NOT_FOUND)
 
+class MarkGameAsPlayed(APIView):
+    def get(self, request, id_list, id_game_list):
+        try:
+            game_list = Game_list.objects.get(id_list=id_list, id=id_game_list)
+        except Game_list.DoesNotExist:
+            return Response({"error": "Game List not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        game_list.is_played = True
+        game_list.save()
+
+        return Response({"message": "Game marked as played successfully"}, status=status.HTTP_200_OK)
+
 ## Game List -------------------------------------------------------------------------------------------------
 
 class GameListCreateApi(CreateAPIView):
