@@ -12,6 +12,7 @@ from rest_framework import permissions, status
 
 from datetime import date
 from django.http import HttpResponse
+from django.utils import timezone
 
 class ActivityCreateAPI(CreateAPIView):
     serializer_class = ActivitySerializer
@@ -118,9 +119,12 @@ class GetActivitiesByPatientDetailed(APIView):
 
 
 class UpdateActivitiesStatus(APIView):
-     def get(self, request):
-        # update activities statuses according to date
-        activities_to_update = Activity.objects.filter(status='Pendiente', end_date__lt=date.today())
+    def get(self, request):
+        # Actualizar estados de actividades según la fecha
+        activities_to_update = Activity.objects.filter(
+            status__in=['Pendiente', 'En curso'],
+            end_date__lt=timezone.now().date()
+        )
         activities_to_update.update(status='Caducado')
 
         return HttpResponse('Estado de actividades actualizado correctamente')

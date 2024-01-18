@@ -95,7 +95,11 @@ DATABASES = {
         'PASSWORD': os.getenv('DB_PASSWORD'),
         'HOST': os.getenv('DB_HOST'),
         'DATABASE_PORT': os.getenv('DB_DATABASE_PORT'),
-    }
+    },
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': ':memory:',
+    # }
 }
 
 # Password validation
