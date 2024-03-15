@@ -32,7 +32,7 @@ class Account(models.Model):
     user_status = models.BooleanField(default = True)
 
 class Therapist(models.Model):
-    user_id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Therapist', primary_key= True)
+    user_id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Therapist')
     id_type = models.IntegerField()
     name = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
@@ -40,7 +40,7 @@ class Therapist(models.Model):
     cell = models.CharField(max_length=10)
 
 class Patient(models.Model):
-    user_id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Patient', primary_key= True)
+    user_id = models.ForeignKey(Account, on_delete = models.CASCADE, related_name= 'Patient')
     id_type = models.IntegerField()
     name = models.CharField(max_length=50)
     lastname = models.CharField(max_length=50)
@@ -60,7 +60,7 @@ class Game_list(models.Model):
 class List(models.Model):
     name = models.CharField(max_length=100)
     id_therapist = models.ForeignKey(Therapist, on_delete=models.CASCADE)
-    id_patient = models.ManyToManyField(Patient, null="true")
+    id_patient = models.ManyToManyField(Patient)
     games = models.ManyToManyField(Game, through=Game_list)
 
 class Activity(models.Model): 
