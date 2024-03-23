@@ -184,10 +184,10 @@ class GetStatsByPatientDetailed(APIView):
         total_activities_in_progress = activities_all.filter(status = 'En curso').count()
 
         ## Total de actividades terminadas
-        total_activities_finished = activities_all.filter(status = 'Realizada').count()
+        total_activities_finished = activities_all.filter(status = 'Realizado').count()
 
         ## Total de actividades caducadas
-        total_activities_lost = activities_all.filter(status = 'Caducada').count()
+        total_activities_lost = activities_all.filter(status = 'Caducado').count()
 
 
         response_data = {
